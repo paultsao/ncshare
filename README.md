@@ -20,4 +20,6 @@ var imagePath = "/images/";
 
 ## License
 
-MIT licensed
+[MIT licensed][1]
+
+[1]:http://opensource.org/licenses/MIT
