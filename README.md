@@ -12,7 +12,7 @@
 <script type="text/javascript" src="/js/ncshare.min.js"></script>
 ```
 
-Set default image path where you store icon files. If 'imagePath' is undefined, default value is '"/images/"'.
+Set default image path where you store icon files. If `imagePath` is undefined, default value is `"/images/"`.
 
 ```javascript
 var imagePath = "/images/";
