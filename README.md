@@ -31,7 +31,7 @@ Works best with [Pathauto module](https://www.drupal.org/project/pathauto) for U
 3. Go to `/admin/config/services/ncshare` to configure social widget with label and URLs. In addition, select node types to use with the social widget.
 
 ### Sharing URLs
-
+```
 Facebook: http://www.facebook.com/sharer/sharer.php?u=[node:url:absolute]
 Twitter: http://twitter.com/intent/tweet?url=[node:url:absolute]&text=[node:title]
 Google+: https://plus.google.com/share?url=[node:url:absolute]
@@ -41,7 +41,7 @@ Digg: http://digg.com/submit?&url=[node:url:absolute]&title=[node:title]
 Reddit: http://reddit.com/submit?&url=[node:url:absolute]&title=[node:title]
 StumbleUpon: http://www.stumbleupon.com/submit?url=[node:url:absolute]&title=[node:title]
 Pinterest: http://pinterest.com/pin/create/button/?url=[node:url:absolute]&title=[node:title]
-
+```
 ## License
 
 [MIT licensed][1]
