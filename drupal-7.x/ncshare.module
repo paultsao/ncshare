@@ -1,0 +1,115 @@
+<?php
+/**
+ * @file
+ * Code for the NCShare module.
+ */
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function ncshare_ctools_plugin_directory($module, $plugin) {
+  return 'plugins/' . $plugin;
+}
+
+/**
+ * Implements hook_menu().
+ */
+function ncshare_menu() {
+  $items = array();
+  $items['admin/config/services/ncshare'] = array(
+    'title' => 'NCShare',
+    'description' => 'Manage NCShare sharing.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ncshare_admin_settings_form'),
+    'access arguments' => array('administer NCShare settings'),
+    'file' => 'ncshare.admin.inc',
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_field_extra_fields().
+ */
+function ncshare_field_extra_fields() {
+  $extra = array();
+  foreach (variable_get('ncshare_bundles', array()) as $bundle) {
+    if (!empty($bundle)) {
+      $extra['node'][$bundle]['display'] = array(
+        'ncshare' => array(
+          'label' => t('Social Sharing Links'),
+          'description' => t('Sharing links for this content'),
+          'weight' => 0,
+        ),
+      );
+    }
+  }
+
+  return $extra;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ncshare_theme($existing, $type, $theme, $path) {
+  $theme = array();
+  $theme['ncshare_widget'] = array(
+    'template' => 'ncshare-widget',
+    'variables' => array(
+      'node' => NULL,
+      'options' => variable_get('ncshare_sharing_options', array()),
+    ),
+  );
+
+  return $theme;
+}
+
+/**
+ * Implement template_preprocess_HOOK().
+ */
+function template_preprocess_ncshare_widget(&$vars) {
+  $links = array();
+  if (!$node = $vars['node']) {
+    return;
+  }
+
+  drupal_add_js(drupal_get_path('module', 'ncshare') . '/js/ncshare.js');
+  drupal_add_css(drupal_get_path('module', 'ncshare') . '/css/ncshare.css');
+  foreach ($vars['options'] as $idx => $option) {
+    $url = token_replace($option['url'], array('node' => $node));
+    $links[] = l($option['label'],str_replace("&#039;", "%27", $url), array(
+      'html' => TRUE,
+      'attributes' => array(
+        'class' => array(
+          'ncshare-link',
+          drupal_html_class($option['label']),
+        ),
+        'target' => '_blank',
+        'title' => "Share on {$option['label']}",
+        'data-label' => $option['label'],
+      ),
+    ));
+  }
+
+  $vars['links'] = array(
+    '#theme' => 'item_list',
+    '#items' => $links,
+    '#title' => '',
+  );
+}
+
+/**
+ * Implements hook_node_view().
+ */
+function ncshare_node_view($node, $view_mode, $langcode) {
+  $extra = field_extra_fields_get_display('node', $node->type, $view_mode);
+
+  // Social widget.
+  if (!empty($extra['ncshare']) && $extra['ncshare']['visible'] == TRUE) {
+    $node->content['ncshare'] = array(
+      '#theme' => 'ncshare_widget',
+      '#node' => $node,
+    );
+  }
+}
