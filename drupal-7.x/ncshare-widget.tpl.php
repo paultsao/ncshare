@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Default theme implementation for DOI.gov Social Widget.
+ * Default theme implementation for NCShare Widget.
  *
  * Available variables:
  * - $links: an HTML unordered list of links.

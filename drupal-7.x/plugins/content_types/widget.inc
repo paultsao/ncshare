@@ -9,7 +9,7 @@ $plugin = array(
   'title' => t('NCShare Widget'),
   'description' => t('Social sharing widget'),
   'required context' => new ctools_context_required(t('Node'), 'node'),
-  'category' => t(''),
+  'category' => t('Miscellaneous'),
 );
 
 /**
@@ -36,7 +36,7 @@ function ncshare_widget_content_type_render($subtype, $conf, $panel_args, $conte
  * Returns the administrative title for a type.
  */
 function ncshare_widget_content_type_admin_title($subtype, $conf, $context) {
-  return t('"@s" type description', array('@s' => $context->identifier));
+  return t('NCShare Widget');
 }
 
 /**
