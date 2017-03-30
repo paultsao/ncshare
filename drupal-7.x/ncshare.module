@@ -12,16 +12,28 @@ function ncshare_ctools_plugin_directory($module, $plugin) {
 }
 
 /**
+ * Implements hook_permission().
+ */
+function ncshare_permission() {
+  return array(
+    'administer ncshare' => array(
+      'title' => t("Administer NCShare"),
+      'description' => t('Perform administration tasks for the NCShare module.'),
+    ),
+  );
+}
+
+/**
  * Implements hook_menu().
  */
 function ncshare_menu() {
   $items = array();
   $items['admin/config/services/ncshare'] = array(
     'title' => 'NCShare',
-    'description' => 'Manage NCShare sharing.',
+    'description' => 'Manage NCShare social sharing.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('ncshare_admin_settings_form'),
-    'access arguments' => array('administer NCShare settings'),
+    'access arguments' => array('administer ncshare'),
     'file' => 'ncshare.admin.inc',
     'type' => MENU_NORMAL_ITEM,
   );
